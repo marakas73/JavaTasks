@@ -1,4 +1,4 @@
-package org.marakas73;
+package org.marakas73.streamapi;
 
 import java.util.stream.LongStream;
 
