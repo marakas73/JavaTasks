@@ -15,8 +15,8 @@ import java.util.Map;
  * Добавьте возможность установки TTL для событий
  */
 public class Task11 {
-    public static void main(String[] args) {
-        EventCounter counter = new EventCounter();
+    public static void main(String[] args) throws InterruptedException {
+        EventCounter counter = new EventCounter(200);
 
         System.out.println("=== INCREMENT EVENTS ===");
         counter.incrementEvent("login");
@@ -31,9 +31,42 @@ public class Task11 {
         System.out.println("Expected download = 3, actual = " + counter.getEventCount("download"));
         System.out.println("Expected upload (not incremented) = 0, actual = " + counter.getEventCount("upload"));
 
+
         System.out.println("\n=== SNAPSHOT ===");
-        Map<String, Long> snapshot = counter.getAllCounts();
-        snapshot.forEach((k, v) -> System.out.println(k + ": " + v));
+        counter.getAllCounts().forEach((k, v) -> System.out.println(k + ": " + v));
+
+        Thread.sleep(100);
+        System.out.println("\nSleeping for 100ms");
+        System.out.println("=== SNAPSHOT ===");
+        counter.getAllCounts().forEach((k, v) -> System.out.println(k + ": " + v));
+
+        counter.incrementEvent("login");
+        counter.incrementEvent("download");
+        System.out.println("\nIncremented login");
+        System.out.println("Incremented download");
+
+        Thread.sleep(100);
+        System.out.println("\nSleeping for 100ms");
+        System.out.println("=== SNAPSHOT ===");
+        counter.getAllCounts().forEach((k, v) -> System.out.println(k + ": " + v));
+
+        Thread.sleep(100);
+        System.out.println("\nSleeping for 100ms");
+        System.out.println("=== SNAPSHOT ===");
+        counter.getAllCounts().forEach((k, v) -> System.out.println(k + ": " + v));
+
+        System.out.println("\n=== INCREMENT EVENTS ===");
+        counter.incrementEvent("login");
+        counter.incrementEvent("logout");
+        counter.incrementEvent("login");
+        counter.incrementEvent("download");
+        counter.incrementEvent("download");
+        counter.incrementEvent("download");
+
+        System.out.println("Expected login = 2, actual = " + counter.getEventCount("login"));
+        System.out.println("Expected logout = 1, actual = " + counter.getEventCount("logout"));
+        System.out.println("Expected download = 3, actual = " + counter.getEventCount("download"));
+        System.out.println("Expected upload (not incremented) = 0, actual = " + counter.getEventCount("upload"));
 
         System.out.println("\n=== MOST COUNTED EVENTS (Top 2) ===");
         Map<String, Long> top2 = counter.getMostCountedEvents(2);
@@ -43,5 +76,7 @@ public class Task11 {
         counter.reset();
         System.out.println("Expected login after reset = 0, actual = " + counter.getEventCount("login"));
         System.out.println("Expected size after reset = 0, actual = " + counter.getAllCounts().size());
+
+        counter.shutdown();
     }
 }
