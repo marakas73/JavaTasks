@@ -1,4 +1,4 @@
-package org.marakas73.streamapi;
+package org.marakas73.complexstreams;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * сгруппировав по категориям и отсортировав по убыванию суммы.
  * Результат должен содержать название категории и общую сумму.
  */
-public class Task31 {
+public class Task1 {
     private static final String[] PRODUCT_NAMES = {
             "Laptop", "Smartphone", "TV", "Bread", "Milk", "Sofa", "Shirt", "Pants",
             "Blender", "Headphones", "Pizza", "Apple", "Towel", "Desk", "Chair",
